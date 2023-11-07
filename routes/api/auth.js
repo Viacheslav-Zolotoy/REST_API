@@ -7,9 +7,18 @@ const {
 } = require("../../middlewares");
 const { schemas } = require("../../models");
 const ctrl = require("../../controllers/auth");
+const servis = require("../../services");
 const router = express.Router();
 
 router.post("/signup", validateBody(schemas.registrationSchema), ctrl.signup);
+
+router.get("/verify/:verificationToken", servis.verifyEmail);
+
+router.post(
+  "/verify",
+  validateBody(schemas.verifySchema),
+  servis.resendEmailVerification
+);
 
 router.post("/login", validateBody(schemas.loginSchema), ctrl.login);
 
